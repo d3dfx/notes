@@ -60,6 +60,10 @@
                 "term_vector": "STRING",
             }
         }
+    },
+    "settings:{
+        "number_of_shards": "INTEGER",
+        "number_of_routing_shards": "INTEGER",
     }
 }
 ```
