@@ -35,6 +35,16 @@
                 "analyzer": "STRING",
                 "coerce": "BOOL",
                 "copy_to": "STRING",
+                "doc_values": "BOOL",
+                "dynamic": "BOOL",
+                "eager_global_ordinals": "BOOL",
+                "enabled": "BOOL",
+                "format": "STRING",
+                "ignore_above": "INTEGER",
+                "ignore_malformed": "BOOL",
+                "index": "BOOL",
+                "index_options": "STRING",
+                "index_phrases": "BOOL",
                 "
             }
         }
@@ -42,26 +52,46 @@
 }
 ```
 #### Alias Properties
-| Property Name | Type | Description | 
-|----------|--------|-------------|
-| filter | QUERY DSL OBJECT | Define the query to issue when using the alias. |
-| index_routing | STRING | Value used to route indexing operations to a specific shard. If specified, this overwrites the routing value for indexing operations. |
-| is_hidden | BOOL | Makes alias only visible to Admins. All indicies with the alias must be hidden. |
-| is_write_index | BOOL | Makes this index the write index for the alias |
-| routing | STRING | Value used to route indexing and search operations to a specific shard. |
-| search_routing | STRING | Value used to route search operations to a specific shard. If specified, this overwrites the routing value for search operations |
+| Property Name | Type | Description | Default |
+|----------|--------|-------------|-----------|
+| filter | QUERY DSL OBJECT | Define the query to issue when using the alias. | n/a |
+| index_routing | STRING | Value used to route indexing operations to a specific shard. If specified, this overwrites the routing value for indexing operations. | n/a |
+| is_hidden | BOOL | Makes alias only visible to Admins. All indicies with the alias must be hidden. | FALSE |
+| is_write_index | BOOL | Makes this index the write index for the alias | FALSE |
+| routing | STRING | Value used to route indexing and search operations to a specific shard. | n/a |
+| search_routing | STRING | Value used to route search operations to a specific shard. If specified, this overwrites the routing value for search operations | n/a |
 
 #### Mappings Properties
-| Property Name | Type | Description | 
-|----------|--------|-------------|
-| Type | DATA_TYPE | Explicitly assign the data type |
-| analyzer | STRING | Assign an analyzer for the field |
-| coerce | BOOL | Numbers enclosed in quotes will be automatically converted to integer numbers. i.e. "10" -> 10 |
-| copy_to | STRING | Copy & Concatenate field values into another field. The Field is not Indexed but is abled to be queried |
-| doc_values | BOOL | Enable or disable a field being written to disk. If not written to disk it will be saved & query-able from the Inverse Index. |
+| Property Name | Type | Description | Default |
+|----------|--------|-------------|----------|
+| Type | DATA_TYPE | Explicitly assign the data type | n/a |
+| analyzer | STRING | Assign an analyzer for the field | standard |
+| coerce | BOOL | Numbers enclosed in quotes will be automatically converted to integers when indexed. i.e. "10" -> 10 | TRUE |
+| copy_to | STRING | Copy & Concatenate field values into another field. The Field is not Indexed but is abled to be queried | n/a |
+| doc_values | BOOL | Enable or disable a field being written to disk. If not written to disk it will be saved & query-able from the Inverse Index. | FALSE |
+| dynamic | BOOL | Enable dynamic assignment on child properties when dynamic is disabled at the type level. | TRUE |
+| eager_global_ordinals | BOOL | Allows keeping ordinals loaded after the initial call to load them. | TRUE |
+| enabled | BOOL | Makes the field indexable and searchable. If False the field is stored but not searchable. | TRUE |
+| format | STRING | Assign a date format Ex. dd-mm-yyyy | n/a |
+| ignore_above | INTEGER | Do not index or store strings with a character count longer than the defined number | n/a |
+| ignore_malformed | BOOL | Allows fields with incorrect data types to be ingested but they are not indexed | FALSE |
+| index | BOOL | Controls whether or not fields are indexed | TRUE |
+| index_options | STRING | Controls what information is added to the inverted index for search and highlighting purposes | positions |
+| index_phrases | BOOL | If enabled, two-term word combinations (shingles) are indexed into a separate field. This allows exact phrase queries (no slop) to run more efficiently, at the expense of a larger index. | FALSE |
+| index_prefixes | OBJECT | Enables the indexing of term prefixes to speed up prefix searches. | { "min_chars": 2, "max_chars": 20 } |
+| meta | OBJECT | This metadata is opaque to Elasticsearch, it is only useful for multiple applications that work on the same indices to share meta information about fields. Ex. units of measurement | n/a |
+| fields | OBJECT | Index the same field in different ways for different purposes. | n/a |
+| normalizer | STRING | Property of keyword fields is similar to analyzer except that it guarantees that the analysis chain produces a single token. | n/a |
+| norms | BOOL | Norms store various normalization factors that are later used at query time in order to compute the score of a document relatively to a query. Norms can take up a lot of disk space. Disable if not needed but they can not be reenabled. | TRUE |
+| null_value | STRING | What string to replace explicitly null values with | n/a |
+| position_increment_gap | INTEGER | When indexing text fields with multiple values a "fake" gap is added between the values to prevent most phrase queries from matching across the values. Modify the gap size with this param. | 100 |
+| properties | OBJECT | Allows sub-fields to be defined | n/a |
+| search_analyzer | STRING | Allows selection of an analyzer to use during search time | standard |
+| similarity | STRING | Identify the scoring algorithm for a field | BM25 |
+| store | STRING | Ensures that the original field value will be available without filtering the _source field. | FALSE |
+| subobjects | BOOL | Allows dot pathed fields to be converted to objects. Disabling ensures these fields are not converted. | TRUE |
+| term_vector | STRING | Term Vectors contain information about the terms produced by the analysis process. This parameter determines what term vector values are stored. | No |
 
-
-### Links
 * https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html
 * https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html
 * https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-params.html
