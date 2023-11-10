@@ -45,7 +45,19 @@
                 "index": "BOOL",
                 "index_options": "STRING",
                 "index_phrases": "BOOL",
-                "
+                "index_prefixes": {},
+                "meta": {},
+                "fields": {},
+                "normalizer": "STRING",
+                "norms": "BOOL",
+                "null_value": "STRING",
+                "position_increment_gap": "INTEGER",
+                "properties": {},
+                "search_analyzer": "STRING",
+                "similarity": "STRING",
+                "store": "BOOL",
+                "subobjects": "BOOL",
+                "term_vector": "STRING",
             }
         }
     }
