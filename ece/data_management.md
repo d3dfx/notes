@@ -2,7 +2,7 @@
 
 ## Define an index that satisfies a given set of requirements
 
-### API Index Definition
+### Create Index API Definition
 | Endpoint | Method | Description | 
 |----------|--------|-------------|
 | /<index> |  PUT   | Create Index|
@@ -109,6 +109,47 @@
 * https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-params.html
 
 ## Define and use an index template for a given pattern that satisfies a given set of requirements
+
+### Create Index Template API Definition
+| Endpoint | Method | Description | 
+|----------|--------|-------------|
+| /_index_template/<index-template-name> |  PUT   | Create Index Template |
+
+#### Request Body Schema
+
+```
+{
+    "composed_of": [],
+    "data_stream": {},
+    "index_patterns": [],
+    "_meta": {},
+    "priority": "INTEGER",
+    "template": {},
+    "version": "INTEGER"
+}
+```
+#### Create Index Template Properties
+| Property Name | Type | Description | Default |
+|----------|--------|-------------|----------|
+| composed_of | ARRAY | An ordered list of component template names. | n/a |
+| data_stream | OBJECT | If this object is included, the template is used to create data streams and their backing indices. Supports an empty object. | n/a |
+| index_patterns | ARRAY | Array of wildcard (*) expressions used to match the names of data streams and indices during creation. | n/a |
+| _meta | OBJECT | Optional user metadata about the index template. | n/a |
+| priority | INTEGER | Priority to determine index template precedence when a new data stream or index is created. The index template with the highest priority is chosen. | 0 |
+| template | OBJECT | Composed of parameters from the Create Index API. Reference Above! | n/a |
+| version | INTEGER | Version number used to manage index templates externally. | n/a |
+
+
+### Create Component Template API Definition
+| Endpoint | Method | Description | 
+|----------|--------|-------------|
+| /_component_template/<component-template-name> | PUT | Create Component Template |
+
+#### Request Body Schema
+
+```
+
+```
 
 ## Define and use a dynamic template that satisfies a given set of requirements
 
