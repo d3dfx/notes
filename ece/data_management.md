@@ -5,7 +5,7 @@
 ### Create Index API Definition
 | Endpoint | Method | Description | 
 |----------|--------|-------------|
-| /\<index\_name\> |  PUT   | Create Index|
+| /\<index\_name\> |  PUT   | Create an Index|
 
 #### Request Body Schema
 
@@ -115,10 +115,10 @@
 
 ## Define and use an index template for a given pattern that satisfies a given set of requirements
 
-### Create Index Template API Definition
+### Create an Index Template API Definition
 | Endpoint | Method | Description | 
 |----------|--------|-------------|
-| /\_index\_template/\<index-template-name\> |  PUT   | Create Index Template |
+| /\_index\_template/\<index-template-name\> |  PUT   | Create an Index Template |
 
 #### Request Body Schema
 
@@ -133,7 +133,7 @@
     "version": "INTEGER"
 }
 ```
-#### Create Index Template Properties
+#### Create an Index Template Properties
 | Property Name | Type | Description | Default |
 |----------|--------|-------------|----------|
 | composed\_of | ARRAY | An ordered list of component template names. | n/a |
@@ -167,6 +167,61 @@ PUT /_component_template/example-component
 ```
 
 ## Define and use a dynamic template that satisfies a given set of requirements
+
+### Create Index API Definition
+| Endpoint | Method | Description | 
+|----------|--------|-------------|
+| /\<index\_name\> |  PUT   | Create an Index|
+
+#### Request Body Schema
+```
+{
+    "mappings": {
+        "dynamic_templates": [
+            {
+                "template_name": {
+                    "match_mapping_type": "TYPE",
+                    "match": "STRING",
+                    "unmatch": "STRING",
+                    "mapping": {
+                        "type": "TYPE"
+                    }
+                }
+            },
+            {
+                "template_name2": {
+                    "path.match": "parent.child*",
+                    "path.unmatch": "*parent.child",
+                    "mapping": {
+                        "type": "TYPE"
+                    }
+                }
+            }
+        ]
+    }
+}
+```
+
+#### Example Call
+```
+PUT new-index1
+{
+    "mappings": {
+        "dynamic_templates": [
+            {
+                "longs_to_strings": {
+                    "match_mapping_type": "string",
+                    "match": "long_*",
+                    "unmatch": "*_text",
+                    "mapping": {
+                        "type": "TYPE"
+                    }
+                }
+            }
+        ]
+    }
+}
+```
 
 ## Define an Index Lifecycle Management policy for a time-series index
 
