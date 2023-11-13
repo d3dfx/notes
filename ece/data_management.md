@@ -111,13 +111,14 @@
 * https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html
 * https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html
 * https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-params.html
+* https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html
 
 ## Define and use an index template for a given pattern that satisfies a given set of requirements
 
 ### Create Index Template API Definition
 | Endpoint | Method | Description | 
 |----------|--------|-------------|
-| /\_index\_template/<index-template-name> |  PUT   | Create Index Template |
+| /\_index\_template/\<index-template-name\> |  PUT   | Create Index Template |
 
 #### Request Body Schema
 
@@ -137,7 +138,7 @@
 |----------|--------|-------------|----------|
 | composed\_of | ARRAY | An ordered list of component template names. | n/a |
 | data\_stream | OBJECT | If this object is included, the template is used to create data streams and their backing indices. Supports an empty object. | n/a |
-| index\_patterns | ARRAY | Array of wildcard (*) expressions used to match the names of data streams and indices during creation. | n/a |
+| index\_patterns | ARRAY | Array of wildcard (\*) expressions used to match the names of data streams and indices during creation. | n/a |
 | \_meta | OBJECT | Optional user metadata about the index template. | n/a |
 | priority | INTEGER | Priority to determine index template precedence when a new data stream or index is created. The index template with the highest priority is chosen. | 0 |
 | template | OBJECT | Composed of parameters from the Create Index API. Reference Above! | n/a |
@@ -152,7 +153,17 @@
 #### Request Body Schema
 
 ```
-
+PUT /_component_template/example-component
+{
+    "template":{
+        "aliases": {},
+        "mappings": {},
+        "settings": {}
+    },
+    "version": "INTEGER",
+    "allow_auto_create": "BOOL",
+    "_meta": "STRING"
+}
 ```
 
 ## Define and use a dynamic template that satisfies a given set of requirements
