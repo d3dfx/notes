@@ -134,6 +134,81 @@ PUT example-index
 
 ## Use the Reindex API and Update By Query API to reindex and/or update documents
 
+### Reindex API Definition
+
+| Endpoint | Method | Description | 
+|----------|--------|-------------|
+| _reindex |  POST  | Copy documents from a source index to a destination index |
+
+#### Request Body Schema
+
+```
+{
+    "conflicts": "proceed || abort",
+    "max_docs": "INTEGER",
+    "source": {
+        "index": "STRING || []",
+        "query": {},
+        "remote": {},
+        "size": "INTEGER",
+        "slice": {},
+        "_source": "true || []"
+        "dest": {},
+        "script": {}
+    }
+}
+```
+
+#### Example Call
+```
+POST _reindex
+{
+  "source": {
+    "index": "my-example-source-index"
+  },
+  "dest": {
+    "index": "my-example-destination-index"
+  }
+}
+```
+
+#### Example Call to update docs while reindexing
+```
+POST _reindex
+{
+    "source": {
+        "index": "my-example-source-index"
+    },
+    "dest": {
+        "index": "my-example-destination-index"
+    },
+    "script": {
+        "lang": "painless",
+        "source": "if ( ctx._source.foo == 'bar' ) {ctx._version++; ctx._source.remove('foo')}"
+    }
+}
+```
+
+### Update by Query API Definition
+Updates documents that match the specified query. If no query is specified, performs an update on every document in the data stream or index without modifying the source, which is useful for picking up mapping changes.
+
+| Endpoint | Method | Description | 
+|----------|--------|-------------|
+| /\<index\_name\>/\_update\_by\_query | POST | Updates documents that match the specified query. |
+
+#### Example Call
+{
+    "query":{
+        "term": {
+            "foo": "bar"
+        }
+    },
+    "script": {
+        "lang": "painless",
+        "source": "ctx._source.remove('foo')"
+    }
+}
+
 ## Define and use an ingest pipeline that satisfies a given set of requirements, including the use of Painless to modify documents
 
 ## Define runtime fields to retrieve custom values using Painless scripting
