@@ -225,5 +225,190 @@ PUT new-index1
 
 ## Define an Index Lifecycle Management policy for a time-series index
 
+### Create Index Lifecycle Management Policy API Definition
+| Endpoint | Method | Description | 
+|----------|--------|-------------|
+| /ilm/policy/\<ilm\_policy\_identifier\>/ilm |  PUT   | Create or Update an Index Lifecycle Management Policy|
+
+#### Request Body Schema
+```
+{
+    "policy": {
+        "_meta": {},
+        "phases": {
+            "hot":{
+                "actions":{
+                    "set_priority": {
+                    "priority": "INTEGER"
+                    },
+                    "unfollow": {},
+                    "rollover": {
+                        "max_age": "TIME_UNITS",
+                        "max_docs": "INTEGER",
+                        "max_size": 'BYTE_UNITS",
+                        "max_primary_shard_size": "BYTE_UNITS",
+                        "max_primary_shard_docs": "INTEGER",
+                        "min_age": "TIME_UNITS",
+                        "min_docs": "INTEGER",
+                        "min_primary_shard_size": "BYTE_UNITS",
+                        "min_primary_shard_docs": "INTEGER",
+                    },
+                    "readonly": {},
+                    "downsample": {
+                        "fixed_interval": "STRING"
+                    },
+                    "shrink" : {
+                        "number_of_shards": "INTEGER",
+                        "max_primary_shard_size": "BYTE_UNITS"
+                    },
+                    "forcemerge": {
+                        "max_num_segments": "INTEGER",
+                        "index_codec": "STRING"
+                    },
+                    "searchable_snapshot": {
+                        "snapshot_repository": "STRING",
+                        "force_merge_index": "BOOL",
+                    }
+                }
+            },
+            "warm": {
+                "min_age": "TIME_UNITS",
+                "actions":{
+                    "set_priority": {
+                    "priority": "INTEGER"
+                    },
+                    "unfollow": {},
+                    "readonly": {},
+                    "downsample": {
+                        "fixed_interval": "STRING"
+                    },
+                    "shrink" : {
+                        "number_of_shards": "INTEGER",
+                        "max_primary_shard_size": "BYTE_UNITS"
+                    },
+                    "forcemerge": {
+                        "max_num_segments": "INTEGER",
+                        "index_codec": "STRING"
+                    },
+                }
+            },
+            "cold":{
+                "min_age": "TIME_UNITS",
+                "actions":{
+                    "set_priority": {
+                    "priority": "INTEGER"
+                    },
+                    "unfollow": {},
+                    "readonly": {},
+                    "downsample": {
+                        "fixed_interval": "STRING"
+                    },
+                    "searchable_snapshot": {
+                        "snapshot_repository": "STRING",
+                        "force_merge_index": "BOOL",
+                    },
+                    "allocate": {
+                        "number_of replicas": "INTEGER",
+                        "total_shards_per_node": "INTEGER",
+                        "include": {},
+                        "exclude": {},
+                        "require": {}
+                    },
+                    "migrate": {
+                        "enabled": "BOOL"
+                    }
+                }
+            },
+            "frozen":{
+                "min_age": "TIME_UNITS",
+                "actions":{
+                    "unfollow": {},
+                    "searchable_snapshot": {
+                        "snapshot_repository": "STRING",
+                        "force_merge_index": "BOOL",
+                    }
+                }
+            }
+            {
+                "delete": {
+                    "min_age": "TIME_UNITS",
+                    "actions": {
+                        "delete": {
+                            "delete_searchable_snapshot": "BOOL"
+                        },
+                        "wait_for_snapshot": { 
+                            "policy": "STRING"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+#### Example Call
+```
+PUT _ilm/policy/example-lifecycle-policy
+{
+    "policy": {
+        "_meta": {},
+        "phases": {
+            "warm": {
+                "min_age": "10d",
+                "actions": {
+                    "forcemerge": {
+                        "max_num_segements": 1
+                    }
+                }
+            },
+            {
+                "delete": {
+                    "min_age": "30d",
+                    "actions": {
+                        "delete": {}
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+### Assign Lifecycle Management Policy to an index API Definition
+| Endpoint | Method | Description | 
+|----------|--------|-------------|
+| /\<index\_name\>/\_settings | PUT | Update Dynamic Index Settings |
+
+#### Request Body Schema
+```
+{
+   "index" : {
+        "lifecycle": {
+            "name" : "STRING",
+            "indexing_complete": "BOOL",
+            "origination_date": "LONG",
+            "step": {
+                "wait_time_threshold": "TIME_VALUE"
+            },
+            "rollover_alias": "STRING"
+        }
+   } 
+}
+```
+
+#### Example Call
+```
+PUT new-index1/_settings
+{
+   "index" : {
+        "lifecycle": {
+            "name" : "example-lifecycle",
+        }
+   } 
+}
+```
+* https://www.elastic.co/guide/en/elasticsearch/reference/current/ilm-settings.html
+
 ## Define an index template that creates a new data stream
 
