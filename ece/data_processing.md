@@ -101,6 +101,36 @@ PUT new-index1
 * https://www.elastic.co/guide/en/elasticsearch/reference/current/specify-analyzer.html
 
 ## Define and use multi-fields with different data types and/or analyzers
+Multi-fields allows a field to be indexed multiple times.
+
+#### Example API Call to create a multi-field mapping
+```
+PUT example-index
+{
+    "mappings": {
+        "properties":{
+            "fullname": {
+                "type": "keyword",
+                "fields":{
+                    "as_standard":{
+                        "type": "text"
+                    },
+                    "as_english": {
+                        "type": "text",
+                        "analyzer": "english"
+                    },
+                    "as_whitespace": {
+                        "type": "text",
+                        "analyzer": "whitespace"
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+* https://www.elastic.co/guide/en/elasticsearch/reference/8.11/multi-fields.html
 
 ## Use the Reindex API and Update By Query API to reindex and/or update documents
 
