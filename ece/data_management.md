@@ -125,11 +125,19 @@
 ```
 {
     "composed_of": [],
-    "data_stream": {},
+    "data_stream": {
+        "allow_custom_routing": "BOOL",
+        "hidden": "BOOL",
+        "index_mode": "STRING"
+    },
     "index_patterns": [],
     "_meta": {},
     "priority": "INTEGER",
-    "template": {},
+    "template": {
+        "aliases": {},
+        "mappings": {},
+        "settings": {}
+    },
     "version": "INTEGER"
 }
 ```
