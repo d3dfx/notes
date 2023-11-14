@@ -97,6 +97,9 @@ PUT new-index1
 }
 ```
 
+* https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-analyzer.html
+* https://www.elastic.co/guide/en/elasticsearch/reference/current/specify-analyzer.html
+
 ## Define and use multi-fields with different data types and/or analyzers
 
 ## Use the Reindex API and Update By Query API to reindex and/or update documents
