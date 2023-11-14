@@ -419,4 +419,32 @@ PUT new-index1/_settings
 * https://www.elastic.co/guide/en/elasticsearch/reference/current/ilm-settings.html
 
 ## Define an index template that creates a new data stream
+Data streams can only be created by index templates. It is recommended to use an ILM policy to manage rollover of data stream indexes.
 
+### Create an Index Template for a Data Stream Index API Definition
+| Endpoint | Method | Description | 
+|----------|--------|-------------|
+| /\<index\_name\>/\_settings | PUT | Update Dynamic Index Settings |
+
+#### Example Call
+```
+PUT _index_template/data-stream-example
+{
+    "data_stream": {},
+    "index_patterns": [example-log-stream*],
+    "priority": "INTEGER",
+    "template": {
+        "mappings": {
+            "properties": {
+                "@timestamp": {
+                    "type": "date"
+                },
+                "message": {
+                    "type": "wildcard"
+                }
+            }
+        },
+    },
+    "version": "1"
+}
+```
