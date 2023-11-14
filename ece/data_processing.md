@@ -211,5 +211,75 @@ Updates documents that match the specified query. If no query is specified, perf
 
 ## Define and use an ingest pipeline that satisfies a given set of requirements, including the use of Painless to modify documents
 
+### Assign Lifecycle Management Policy to an index API Definition
+| Endpoint | Method | Description | 
+|----------|--------|-------------|
+| /\_ingest/pipeline/\<pipeline-name\> | PUT | Create an ingest pipeline |
+
+#### Request Body Schema
+```
+{
+    "description": "STRING",
+    "on_failure": [{}],
+    "processors": [{}],
+    "version": "INTEGER",
+    "_meta": {}
+}
+```
+
+#### Example Call
+```
+PUT /_ingest/pipeline/example-ingest-pipeline
+{
+    "description": "Add Foo : bar object",
+    "processors": [
+        {
+            "set": {
+                "field": "foo",
+                "value": "bar"
+            }
+        }
+    ]
+}
+```
+
+#### Example Call using the Script Processor
+```
+PUT /_ingest/pipeline/example-ingest-pipeline
+{
+    "description": "Add Foo : bar object",
+    "processors": [
+        {
+            "script": {
+                "lang": "painless",
+                "source": "ctx.foo = 'bar'"
+            }
+        }
+    ]
+}
+```
+### Use a pipeline with an indexing request
+This can be done with the following apis
+* \_doc
+* \_bulk
+* \_update\_by\_query
+* \_reindex
+```
+POST example-index/_doc?pipeline=<pipeline-name>
+POST example-index/_bulk?pipeline=<pipeline-name>
+POST example-index/_update_by_query?pipeline=<pipeline-name>
+POST example-index/_reindex?pipeline=<pipeline-name>
+```
+### Set a default pipeline
+This is set in the index settings
+
+```
+PUT example-index/_settings
+{
+    "index" {
+        "default_pipeline": "<pipeline-name>"
+    }
+}
+```
 ## Define runtime fields to retrieve custom values using Painless scripting
 
