@@ -424,7 +424,7 @@ Data streams can only be created by index templates. It is recommended to use an
 ### Create an Index Template for a Data Stream Index API Definition
 | Endpoint | Method | Description | 
 |----------|--------|-------------|
-| /\<index\_name\>/\_settings | PUT | Update Dynamic Index Settings |
+| /\_index\_template/\<index-template-name\> | PUT | Create an Index Template |
 
 #### Example Call
 ```
