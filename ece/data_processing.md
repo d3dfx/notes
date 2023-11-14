@@ -41,7 +41,61 @@ PUT new-index1/_mapping
     }
 }
 ```
-## Define and use a custom analyzer that satisfies a given set of requirements
+## Define and use a custom analyzer that satisfies a given set of requirments
+Defined under index settings and can be defined at the index level and the field level.
+
+## Create a custome analyzer API Definition
+| Endpoint | Method | Description | 
+|----------|--------|-------------|
+| /\<index\_name\>/\_settings | PUT | Update Index Settings |
+
+#### Example Call
+```
+PUT new-index1
+{
+    "settings":{
+        "analysis" : {
+            "analyzer": {
+                "example-custom-analyzer-name":{
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "char_filter": [
+                        "html_strip"
+                    ],
+                    "filter": [
+                        "lowercase",
+                        "asciifolding
+                    ]
+                }
+            }
+        }
+    }
+}
+```
+
+#### Example Call to Assign a default analyzer
+```
+PUT new-index1
+{
+    "settings": {
+        "analysis" : {
+            "analyzer": {
+                "default":{
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "char_filter": [
+                        "html_strip"
+                    ],
+                    "filter": [
+                        "lowercase",
+                        "asciifolding
+                    ]
+                }
+            }
+        }
+    }
+}
+```
 
 ## Define and use multi-fields with different data types and/or analyzers
 
