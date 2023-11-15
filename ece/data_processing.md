@@ -283,3 +283,50 @@ PUT example-index/_settings
 ```
 ## Define runtime fields to retrieve custom values using Painless scripting
 
+### Define a Runtime Field
+| Endpoint | Method | Description | 
+|----------|--------|-------------|
+| /\<index\_name\>/ | PUT | Create an Index |
+
+#### Request Body Schema
+```
+{
+    "mappings": {
+        "runtime": {
+            "day_of_week": {
+                "type": "keyword",
+                "script": {
+                    "source": "emit()",
+                    "lang": "painless",
+                    "params": {}
+                }
+            }
+        }
+    }
+}
+```
+
+#### Example Call
+```
+PUT new-index1
+{
+    "mappings": {
+        "runtime": {
+            "day_of_week": {
+                "type": "keyword",
+                "script": {
+                    "source": "emit(doc['@timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.FULL, Locale.ROOT))"
+                }
+            }
+        },
+        "properties": {
+            "@timestamp" { 
+                "type": "date"
+            }
+        }
+    }
+}
+```
+
+* https://www.elastic.co/guide/en/elasticsearch/reference/current/runtime.html
+
