@@ -133,6 +133,36 @@ POST /_snapshot/local-fs/example-snapshot/_restore
 
 ## Configure a snapshot to be searchable
 
+### Mount the snapshot for searching
+
+| Endpoint | Method | Description | 
+|----------|--------|-------------|
+| /\_snapshot/\<repository-name\>/\<snapshot-name\>/\_mount | POST | Mount a snapshot for searching |
+
+##### Request Body
+```
+{
+    "index": "STRING",
+    "renamed_index": "STRING",
+    "index_settings": {},
+    "ignore_index_settings": []
+}
+```
+
+##### Example
+```
+POST /_snapshot/local-fs/example-snapshot/_mount
+{
+    "index": "example-index",
+    "renamed_index": "example"
+}
+```
+
+### Search the mounted snapshot
+```
+GET /example/_search
+```
+
 ## Configure a cluster for cross-cluster search
 
 ## Implement cross-cluster replication 
