@@ -164,6 +164,52 @@ GET /example/_search
 ```
 
 ## Configure a cluster for cross-cluster search
+Two Models
+* API Based Authentication
+* Certificate Authentication
+
+Two Connection Methods
+
+* Sniffing
+* Proxy
+
+### Update Cluster Settings
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| /\_cluster/settings | PUT | Update cluster settings |
+
+#### Example
+
+```
+PUT _cluster/settings
+{
+    "persistent": {
+        "cluster": {
+            "remote": {
+                "remote-cluster-name":{
+                    "mode": "sniff",
+                    "seeds": [
+                        "example.com:9500",
+                        "127.0.0.1:9300"
+                    ]
+                }
+            }
+        }
+    }
+}
+```
+
+### Search Remote Cluster
+
+#### Example
+
+```
+GET remote-cluster-name:example-index/_search
+```
+
+* https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-cross-cluster-search.html
+* https://www.elastic.co/guide/en/elasticsearch/reference/current/remote-clusters-settings.html
 
 ## Implement cross-cluster replication 
 
