@@ -213,3 +213,67 @@ GET remote-cluster-name:example-index/_search
 
 ## Implement cross-cluster replication 
 
+### Update Cluster Settings
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| /\_cluster/settings | PUT | Update cluster settings |
+
+#### Example
+
+```
+PUT _cluster/settings
+{
+    "persistent": {
+        "cluster": {
+            "remote": {
+                "remote-cluster-name":{
+                    "mode": "sniff",
+                    "seeds": [
+                        "example.com:9500",
+                        "127.0.0.1:9300"
+                    ]
+                }
+            }
+        }
+    }
+}
+```
+
+### Create Cross-Cluster Replication Follower
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| /\<follower-index-name\>/\_ccr/follow | PUT | Create a follower index |
+
+#### CCR Follow Request Body
+```
+{
+    "leader_index": "STRING",
+    "remote_cluster": "STRING",
+    "data_stream_name": "STRING",
+    "settings": {},
+    "max_read_request_operations_count": "INTEGER",
+    "max_outstanding_read_requests": "LONG",
+    "max_read_request_size": "BYTE_VALUE"
+    "max_write_request_operation_count": "INTEGER",
+    "max_write_request_size": "BYTE_VALUE",
+    "max_outstanding_write_requests": "INTEGER",
+    "max_write_buffer_count": "INTEGER",
+    "max_write_buffer_size": "BYTE_VALUE"
+    "max_retry_delay": "TIME_VALUE",
+    "read_poll_timeout": "TIME_VALUE"
+}
+```
+
+#### Example
+
+```
+PUT /example-index-copy/_ccr/follow
+{
+    "remote_cluster": "cluster01",
+    "leader_index": "example-index"
+}
+```
+
+* https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-put-follow.html
