@@ -1,14 +1,17 @@
 # Data Processing
 
 ## Define a mapping that satisfies a given set of requirements
+
 Fields that are already mapped can not be updated but new fields can be added.
 
 ### Create Index API Definition
-| Endpoint | Method | Description | 
-|----------|--------|-------------|
-| /\<index\_name\> |  PUT   | Create an Index|
+
+| Endpoint        | Method | Description     |
+| --------------- | ------ | --------------- |
+| /\<index_name\> | PUT    | Create an Index |
 
 #### Example Call
+
 ```
 PUT new-index1
 {
@@ -23,11 +26,13 @@ PUT new-index1
 ```
 
 ### Update Index Field Mappings API Definition
-| Endpoint | Method | Description | 
-|----------|--------|-------------|
-| /\<index\_name\>/_mapping |  PUT   | Update an Index mappings|
+
+| Endpoint                  | Method | Description              |
+| ------------------------- | ------ | ------------------------ |
+| /\<index_name\>/\_mapping | PUT    | Update an Index mappings |
 
 #### Example Call
+
 ```
 PUT new-index1/_mapping
 {
@@ -41,15 +46,19 @@ PUT new-index1/_mapping
     }
 }
 ```
+
 ## Define and use a custom analyzer that satisfies a given set of requirments
+
 Defined under index settings and can be defined at the index level and the field level.
 
 ## Create a custome analyzer API Definition
-| Endpoint | Method | Description | 
-|----------|--------|-------------|
-| /\<index\_name\>/\_settings | PUT | Update Index Settings |
+
+| Endpoint                   | Method | Description           |
+| -------------------------- | ------ | --------------------- |
+| /\<index_name\>/\_settings | PUT    | Update Index Settings |
 
 #### Example Call
+
 ```
 PUT new-index1
 {
@@ -74,6 +83,7 @@ PUT new-index1
 ```
 
 #### Example Call to Assign a default analyzer
+
 ```
 PUT new-index1
 {
@@ -97,13 +107,15 @@ PUT new-index1
 }
 ```
 
-* https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-analyzer.html
-* https://www.elastic.co/guide/en/elasticsearch/reference/current/specify-analyzer.html
+- https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-analyzer.html
+- https://www.elastic.co/guide/en/elasticsearch/reference/current/specify-analyzer.html
 
 ## Define and use multi-fields with different data types and/or analyzers
+
 Multi-fields allows a field to be indexed multiple times.
 
 #### Example API Call to create a multi-field mapping
+
 ```
 PUT example-index
 {
@@ -130,15 +142,15 @@ PUT example-index
 }
 ```
 
-* https://www.elastic.co/guide/en/elasticsearch/reference/8.11/multi-fields.html
+- https://www.elastic.co/guide/en/elasticsearch/reference/8.11/multi-fields.html
 
 ## Use the Reindex API and Update By Query API to reindex and/or update documents
 
 ### Reindex API Definition
 
-| Endpoint | Method | Description | 
-|----------|--------|-------------|
-| _reindex |  POST  | Copy documents from a source index to a destination index |
+| Endpoint  | Method | Description                                               |
+| --------- | ------ | --------------------------------------------------------- |
+| \_reindex | POST   | Copy documents from a source index to a destination index |
 
 #### Request Body Schema
 
@@ -160,6 +172,7 @@ PUT example-index
 ```
 
 #### Example Call
+
 ```
 POST _reindex
 {
@@ -173,6 +186,7 @@ POST _reindex
 ```
 
 #### Example Call to update docs while reindexing
+
 ```
 POST _reindex
 {
@@ -190,33 +204,37 @@ POST _reindex
 ```
 
 ### Update by Query API Definition
+
 Updates documents that match the specified query. If no query is specified, performs an update on every document in the data stream or index without modifying the source, which is useful for picking up mapping changes.
 
-| Endpoint | Method | Description | 
-|----------|--------|-------------|
-| /\<index\_name\>/\_update\_by\_query | POST | Updates documents that match the specified query. |
+| Endpoint                          | Method | Description                                       |
+| --------------------------------- | ------ | ------------------------------------------------- |
+| /\<index_name\>/\_update_by_query | POST   | Updates documents that match the specified query. |
 
 #### Example Call
+
 {
-    "query":{
-        "term": {
-            "foo": "bar"
-        }
-    },
-    "script": {
-        "lang": "painless",
-        "source": "ctx._source.remove('foo')"
-    }
+"query":{
+"term": {
+"foo": "bar"
+}
+},
+"script": {
+"lang": "painless",
+"source": "ctx.\_source.remove('foo')"
+}
 }
 
 ## Define and use an ingest pipeline that satisfies a given set of requirements, including the use of Painless to modify documents
 
 ### Assign Lifecycle Management Policy to an index API Definition
-| Endpoint | Method | Description | 
-|----------|--------|-------------|
-| /\_ingest/pipeline/\<pipeline-name\> | PUT | Create an ingest pipeline |
+
+| Endpoint                             | Method | Description               |
+| ------------------------------------ | ------ | ------------------------- |
+| /\_ingest/pipeline/\<pipeline-name\> | PUT    | Create an ingest pipeline |
 
 #### Request Body Schema
+
 ```
 {
     "description": "STRING",
@@ -228,6 +246,7 @@ Updates documents that match the specified query. If no query is specified, perf
 ```
 
 #### Example Call
+
 ```
 PUT /_ingest/pipeline/example-ingest-pipeline
 {
@@ -244,6 +263,7 @@ PUT /_ingest/pipeline/example-ingest-pipeline
 ```
 
 #### Example Call using the Script Processor
+
 ```
 PUT /_ingest/pipeline/example-ingest-pipeline
 {
@@ -258,19 +278,25 @@ PUT /_ingest/pipeline/example-ingest-pipeline
     ]
 }
 ```
+
 ### Use a pipeline with an indexing request
+
 This can be done with the following apis
-* \_doc
-* \_bulk
-* \_update\_by\_query
-* \_reindex
+
+- \_doc
+- \_bulk
+- \_update_by_query
+- \_reindex
+
 ```
 POST example-index/_doc?pipeline=<pipeline-name>
 POST example-index/_bulk?pipeline=<pipeline-name>
 POST example-index/_update_by_query?pipeline=<pipeline-name>
 POST example-index/_reindex?pipeline=<pipeline-name>
 ```
+
 ### Set a default pipeline
+
 This is set in the index settings
 
 ```
@@ -281,14 +307,17 @@ PUT example-index/_settings
     }
 }
 ```
+
 ## Define runtime fields to retrieve custom values using Painless scripting
 
 ### Define a Runtime Field
-| Endpoint | Method | Description | 
-|----------|--------|-------------|
-| /\<index\_name\>/ | PUT | Create an Index |
+
+| Endpoint         | Method | Description     |
+| ---------------- | ------ | --------------- |
+| /\<index_name\>/ | PUT    | Create an Index |
 
 #### Request Body Schema
+
 ```
 {
     "mappings": {
@@ -307,6 +336,7 @@ PUT example-index/_settings
 ```
 
 #### Example Call
+
 ```
 PUT new-index1
 {
@@ -320,7 +350,7 @@ PUT new-index1
             }
         },
         "properties": {
-            "@timestamp" { 
+            "@timestamp" {
                 "type": "date"
             }
         }
@@ -328,5 +358,4 @@ PUT new-index1
 }
 ```
 
-* https://www.elastic.co/guide/en/elasticsearch/reference/current/runtime.html
-
+- https://www.elastic.co/guide/en/elasticsearch/reference/current/runtime.html
