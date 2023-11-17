@@ -12,7 +12,7 @@ Fields that are already mapped can not be updated but new fields can be added.
 
 #### Example Call
 
-```
+```elasticsearch_console_command
 PUT new-index1
 {
     "mappings": {
@@ -33,7 +33,7 @@ PUT new-index1
 
 #### Example Call
 
-```
+```elasticsearch_console_command
 PUT new-index1/_mapping
 {
     "properties": {
@@ -59,7 +59,7 @@ Defined under index settings and can be defined at the index level and the field
 
 #### Example Call
 
-```
+```elasticsearch_console_command
 PUT new-index1
 {
     "settings":{
@@ -84,7 +84,7 @@ PUT new-index1
 
 #### Example Call to Assign a default analyzer
 
-```
+```elasticsearch_console_command
 PUT new-index1
 {
     "settings": {
@@ -107,8 +107,8 @@ PUT new-index1
 }
 ```
 
-- https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-analyzer.html
-- https://www.elastic.co/guide/en/elasticsearch/reference/current/specify-analyzer.html
+- <https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-analyzer.html>
+- <https://www.elastic.co/guide/en/elasticsearch/reference/current/specify-analyzer.html>
 
 ## Define and use multi-fields with different data types and/or analyzers
 
@@ -116,7 +116,7 @@ Multi-fields allows a field to be indexed multiple times.
 
 #### Example API Call to create a multi-field mapping
 
-```
+```elasticsearch_console_command
 PUT example-index
 {
     "mappings": {
@@ -142,7 +142,7 @@ PUT example-index
 }
 ```
 
-- https://www.elastic.co/guide/en/elasticsearch/reference/8.11/multi-fields.html
+- <https://www.elastic.co/guide/en/elasticsearch/reference/8.11/multi-fields.html>
 
 ## Use the Reindex API and Update By Query API to reindex and/or update documents
 
@@ -154,7 +154,7 @@ PUT example-index
 
 #### Request Body Schema
 
-```
+```elasticsearch_console_command
 {
     "conflicts": "proceed || abort",
     "max_docs": "INTEGER",
@@ -173,7 +173,7 @@ PUT example-index
 
 #### Example Call
 
-```
+```elasticsearch_console_command
 POST _reindex
 {
   "source": {
@@ -187,7 +187,7 @@ POST _reindex
 
 #### Example Call to update docs while reindexing
 
-```
+```elasticsearch_console_command
 POST _reindex
 {
     "source": {
@@ -235,7 +235,7 @@ Updates documents that match the specified query. If no query is specified, perf
 
 #### Request Body Schema
 
-```
+```elasticsearch_console_command
 {
     "description": "STRING",
     "on_failure": [{}],
@@ -247,7 +247,7 @@ Updates documents that match the specified query. If no query is specified, perf
 
 #### Example Call
 
-```
+```elasticsearch_console_command
 PUT /_ingest/pipeline/example-ingest-pipeline
 {
     "description": "Add Foo : bar object",
@@ -264,7 +264,7 @@ PUT /_ingest/pipeline/example-ingest-pipeline
 
 #### Example Call using the Script Processor
 
-```
+```elasticsearch_console_command
 PUT /_ingest/pipeline/example-ingest-pipeline
 {
     "description": "Add Foo : bar object",
@@ -288,18 +288,18 @@ This can be done with the following apis
 - \_update_by_query
 - \_reindex
 
-```
+```elasticsearch_console_command
 POST example-index/_doc?pipeline=<pipeline-name>
 POST example-index/_bulk?pipeline=<pipeline-name>
 POST example-index/_update_by_query?pipeline=<pipeline-name>
 POST example-index/_reindex?pipeline=<pipeline-name>
-```
+```elasticsearch_console_command
 
 ### Set a default pipeline
 
 This is set in the index settings
 
-```
+```elasticsearch_console_command
 PUT example-index/_settings
 {
     "index" {
@@ -318,7 +318,7 @@ PUT example-index/_settings
 
 #### Request Body Schema
 
-```
+```elasticsearch_console_command
 {
     "mappings": {
         "runtime": {
@@ -337,7 +337,7 @@ PUT example-index/_settings
 
 #### Example Call
 
-```
+```elasticsearch_console_command
 PUT new-index1
 {
     "mappings": {
@@ -358,4 +358,4 @@ PUT new-index1
 }
 ```
 
-- https://www.elastic.co/guide/en/elasticsearch/reference/current/runtime.html
+- <https://www.elastic.co/guide/en/elasticsearch/reference/current/runtime.html>

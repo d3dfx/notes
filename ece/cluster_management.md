@@ -4,29 +4,29 @@
 
 ### Check Index health
 
-```
+```elasticsearch_console_command
 # Get all indices
 GET _cat/indices
 
 # Get a specific Index's health
 GET _cat/indices/<index-name>
-```
+```elasticsearch_console_command
 
 ### Check Shard health
 
-```
+```elasticsearch_console_command
 # Get all shard health
 GET _cat/shards
 
 # Get shard health for a specific index
 GET _cat/shards/<index-name>
-```
+```elasticsearch_console_command
 
 ### Check why a shard is allocated the way it is
 
 #### Request Body
 
-```
+```elasticsearch_console_command
 GET _cluster/allocation/explain
 {
     "current_node": "STRING",
@@ -38,7 +38,7 @@ GET _cluster/allocation/explain
 
 #### Example Call
 
-```
+```elasticsearch_console_command
 # When checking for unassigned shards; an empty request body should be used
 GET _cluster/allocation/explain
 {}
@@ -66,7 +66,7 @@ Backups are called snapshots in elasticsearch.
 
 ##### Request Body
 
-```
+```elasticsearch_console_command
 {
     "type": "azure || gcs || s3 || fs || source || url || hdfs",
     "settings": {},
@@ -76,7 +76,7 @@ Backups are called snapshots in elasticsearch.
 
 ##### Example
 
-```
+```elasticsearch_console_command
 PUT /_snapshot/example-file-repository
 {
     "type": "fs",
@@ -94,7 +94,7 @@ PUT /_snapshot/example-file-repository
 
 ##### Request Body
 
-```
+```elasticsearch_console_command
 {
     "expand_wildcards": "STRING",
     "ignore_unavailable": "BOOL",
@@ -108,7 +108,7 @@ PUT /_snapshot/example-file-repository
 
 ##### Example
 
-```
+```elasticsearch_console_command
 PUT /_snapshot/example-repository/example-snapshot
 {
     "indices": "example-index"
@@ -123,7 +123,7 @@ PUT /_snapshot/example-repository/example-snapshot
 
 ##### Request Body
 
-```
+```elasticsearch_console_command
 {
     "ignore_unavailable": "BOOL",
     "ignore_index_settings": "STRING || []",
@@ -140,7 +140,7 @@ PUT /_snapshot/example-repository/example-snapshot
 
 ##### Example
 
-```
+```elasticsearch_console_command
 POST /_snapshot/local-fs/example-snapshot/_restore
 {
     "indices": "example-index"
@@ -157,7 +157,7 @@ POST /_snapshot/local-fs/example-snapshot/_restore
 
 ##### Request Body
 
-```
+```elasticsearch_console_command
 {
     "index": "STRING",
     "renamed_index": "STRING",
@@ -168,7 +168,7 @@ POST /_snapshot/local-fs/example-snapshot/_restore
 
 ##### Example
 
-```
+```elasticsearch_console_command
 POST /_snapshot/local-fs/example-snapshot/_mount
 {
     "index": "example-index",
@@ -178,9 +178,9 @@ POST /_snapshot/local-fs/example-snapshot/_mount
 
 ### Search the mounted snapshot
 
-```
+```elasticsearch_console_command
 GET /example/_search
-```
+```elasticsearch_console_command
 
 ## Configure a cluster for cross-cluster search
 
@@ -202,7 +202,7 @@ Two Connection Methods
 
 #### Example
 
-```
+```elasticsearch_console_command
 PUT _cluster/settings
 {
     "persistent": {
@@ -225,12 +225,12 @@ PUT _cluster/settings
 
 #### Example
 
-```
+```elasticsearch_console_command
 GET remote-cluster-name:example-index/_search
-```
+```elasticsearch_console_command
 
-- https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-cross-cluster-search.html
-- https://www.elastic.co/guide/en/elasticsearch/reference/current/remote-clusters-settings.html
+- <https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-cross-cluster-search.html>
+- <https://www.elastic.co/guide/en/elasticsearch/reference/current/remote-clusters-settings.html>
 
 ## Implement cross-cluster replication
 
@@ -242,7 +242,7 @@ GET remote-cluster-name:example-index/_search
 
 #### Example
 
-```
+```elasticsearch_console_command
 PUT _cluster/settings
 {
     "persistent": {
@@ -269,7 +269,7 @@ PUT _cluster/settings
 
 #### CCR Follow Request Body
 
-```
+```elasticsearch_console_command
 {
     "leader_index": "STRING",
     "remote_cluster": "STRING",
@@ -290,7 +290,7 @@ PUT _cluster/settings
 
 #### Example
 
-```
+```elasticsearch_console_command
 PUT /example-index-copy/_ccr/follow
 {
     "remote_cluster": "cluster01",
@@ -298,4 +298,4 @@ PUT /example-index-copy/_ccr/follow
 }
 ```
 
-- https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-put-follow.html
+- <https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-put-follow.html>

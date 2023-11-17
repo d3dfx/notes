@@ -10,7 +10,7 @@
 
 #### Request Body Schema
 
-```
+```elasticsearch_console_command
 {
     "aliases": {
         "new_alias": {
@@ -112,10 +112,10 @@
 | subobjects             | BOOL      | Allows dot pathed fields to be converted to objects. Disabling ensures these fields are not converted.                                                                                                                                     | TRUE                                |
 | term_vector            | STRING    | Term Vectors contain information about the terms produced by the analysis process. This parameter determines what term vector values are stored.                                                                                           | No                                  |
 
-- https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html
-- https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html
-- https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-params.html
-- https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html
+- <https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html>
+- <https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html>
+- <https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-params.html>
+- <https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html>
 
 ## Define and use an index template for a given pattern that satisfies a given set of requirements
 
@@ -127,7 +127,7 @@
 
 #### Request Body Schema
 
-```
+```elasticsearch_console_command
 {
     "composed_of": [],
     "data_stream": {
@@ -167,7 +167,7 @@
 
 #### Request Body Schema
 
-```
+```elasticsearch_console_command
 PUT /_component_template/example-component
 {
     "template":{
@@ -191,7 +191,7 @@ PUT /_component_template/example-component
 
 #### Request Body Schema
 
-```
+```elasticsearch_console_command
 {
     "mappings": {
         "dynamic_templates": [
@@ -221,7 +221,7 @@ PUT /_component_template/example-component
 
 #### Example Call
 
-```
+```elasticsearch_console_command
 PUT new-index1
 {
     "mappings": {
@@ -251,7 +251,7 @@ PUT new-index1
 
 #### Request Body Schema
 
-```
+```elasticsearch_console_command
 {
     "policy": {
         "_meta": {},
@@ -369,7 +369,7 @@ PUT new-index1
 
 #### Example Call
 
-```
+```elasticsearch_console_command
 PUT _ilm/policy/example-lifecycle-policy
 {
     "policy": {
@@ -404,7 +404,7 @@ PUT _ilm/policy/example-lifecycle-policy
 
 #### Request Body Schema
 
-```
+```elasticsearch_console_command
 {
    "index" : {
         "lifecycle": {
@@ -422,7 +422,7 @@ PUT _ilm/policy/example-lifecycle-policy
 
 #### Example Call
 
-```
+```elasticsearch_console_command
 PUT new-index1/_settings
 {
    "index" : {
@@ -433,7 +433,7 @@ PUT new-index1/_settings
 }
 ```
 
-- https://www.elastic.co/guide/en/elasticsearch/reference/current/ilm-settings.html
+- <https://www.elastic.co/guide/en/elasticsearch/reference/current/ilm-settings.html>
 
 ## Define an index template that creates a new data stream
 
@@ -447,7 +447,7 @@ Data streams can only be created by index templates. It is recommended to use an
 
 #### Example Call
 
-```
+```elasticsearch_console_command
 PUT _index_template/data-stream-example
 {
     "data_stream": {},
