@@ -154,6 +154,66 @@ GET example-index/_search
 
 ## Write and execute a search query that is a Boolean combination of multiple queries and filters
 
+### Boolean Clauses
+
+* must: All queries in this clause must return true.
+* filter": Same as 'must' but the relevancy score will be ignored.
+* must_not: All queries in this clause must return false.
+* should: A specific amount of queries in this clause must be true.
+
+
+Use the '_name' attribute to see which query matched the returned results.
+Use the 'boost' attribute to increase a query's relevancy.
+
+```elasticsearch_console_command
+GET _search
+{
+    "query": {
+        "bool":{
+            "must": [
+                {
+                    "wildcard": {
+                        "example-field": {
+                            "_name": "Get Prefix",
+                            "value": "exam*"
+                        }
+                    }
+                }
+            ],
+            "filter": [
+                "wildcard":{
+                    "example-field": {
+                        "value": "*ple*"
+                    }
+                }
+            ],
+            "must_not": [
+                {
+                    "match":{
+                        "_name": "exclude example 3",
+                        "example-field": "3"
+                    }
+                }
+            ],
+            "should":[
+                {
+                    "match":{
+                        "boost": 3
+                        "example-field": "1"
+                    }
+                },
+                {
+                    "match":{
+                        "example-field": "2"
+                    }
+                }
+            ],
+            "minimum_should_match": 1
+        }
+    }
+}
+```
+
 ## Write an asynchronous search
 
 ## Write and execute metric and bucket aggregations
