@@ -216,6 +216,46 @@ GET _search
 
 ## Write an asynchronous search
 
+Allows a search to be queued for execution.
+
+| Endpoint                                  | Method | Description              |
+| ----------------------------------------- | ------ | ------------------------ |
+| /\<index-name\>/_async_search | POST | Submit an async search request |
+| /_async_search/\<search_id\> | GET | Retrieve the results of a previously submitted async search |
+| /_async_search/status/\<search_id\> | GET | Retrieve information about an async search's execution |
+| /_async_search/\<search_id\> | DELETE | Remove an async's search results from  |
+
+#### Create an Asynchronous search
+
+```elasticsearch_console_command
+POST /example-index/_async_search
+{
+    "query": {
+        "match": {
+            "example-field": "example"
+        }
+    }
+}
+```
+
+#### Get the Status of an Asynchronous search
+
+```elasticsearch_console_command
+GET /_async_search/status/FmRldE8zREVEUzA2ZVpUeGs2ejJFUFEaMkZ5QTVrSTZSaVN3WlNFVmtlWHJsdzoxMDc=
+```
+
+#### Get the results from an Asynchronous Search
+
+```elasticsearch_console_command
+GET /_async_search/FmRldE8zREVEUzA2ZVpUeGs2ejJFUFEaMkZ5QTVrSTZSaVN3WlNFVmtlWHJsdzoxMDc=
+```
+
+#### Delete an Asynchronous Search request
+
+```elasticsearch_console_command
+DELETE /_async_search/FmRldE8zREVEUzA2ZVpUeGs2ejJFUFEaMkZ5QTVrSTZSaVN3WlNFVmtlWHJsdzoxMDc=
+```
+
 ## Write and execute metric and bucket aggregations
 
 ## Write and execute aggregations that contain sub-aggregations
