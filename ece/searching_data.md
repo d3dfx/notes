@@ -258,7 +258,194 @@ DELETE /_async_search/FmRldE8zREVEUzA2ZVpUeGs2ejJFUFEaMkZ5QTVrSTZSaVN3WlNFVmtlWH
 
 ## Write and execute metric and bucket aggregations
 
+### Request Body
+
+```elasticsearch_console_command
+{
+   "query": {},
+   "aggs": {
+        "name-of-aggregations": {
+            "aggregation-statement": {}
+        }
+   } 
+}
+```
+
+### Return only Aggregations
+
+By default Aggregations also return documents. To disable that use the size url parameter.
+
+```elasticsearch_console_command
+GET example-index/_search?size=0
+{
+    "aggs": {
+        "example-terms-aggregation-name": {}
+    }
+}
+```
+
+### Scope an aggregation
+
+Aggregations process all documents returned in the search. Use the query parameter to filter the returned documents.
+
+```elasticsearch_console_command
+GET example-index/_search?size=0
+{
+    "query": {
+        "range": {
+            "@timestamp": {
+                "gte": "now-10d/d",
+                "lt": "now/d"
+            }
+        }
+    }
+    "aggs": {
+        "example-terms-aggregation-name": {}
+    }
+}
+```
+
+### Bucket Aggregations
+
+Group documents into buckets, also called bins, based on field values, ranges, or other criteria.
+
+#### Terms Aggregation
+
+```elasticsearch_console_command
+GET example-index/_search?size=0
+{
+    "aggs": {
+        "example-terms-aggregation-name": {
+            "terms": {
+                "field": "example-field.example-keyword",
+                "size": 10
+            }
+        }
+    }
+}
+```
+
+#### Range Aggregation
+
+```elasticsearch_console_command
+GET example-index/_search?size=0
+{
+    "aggs": {
+        "example-range-aggregation-name": {
+            "range": {
+                "field": "example-number-field",
+                "ranges": [
+                    {
+                        "to": 100
+                    },
+                    {
+                        "from": 100,
+                        "to": 500
+                    },
+                    {
+                        "from": 500
+                    }
+                ] 
+            }
+        }
+    }
+}
+```
+
+#### Date Histogram Aggregation
+
+##### Fixed Interval Example
+
+```elasticsearch_console_command
+GET example-index/_search?size=0
+{
+    "aggs": {
+        "example-date-histgram-aggregation-name": {
+            "date_histogram": {
+                "field": "@timestamp",
+                "fixed_interval": "3m"
+            }
+        }
+    }
+}
+```
+
+##### Calendar Interval Example
+
+```elasticsearch_console_command
+GET example-index/_search?size=0
+{
+    "aggs": {
+        "example-date-histgram-aggregation-name": {
+            "date_histogram": {
+                "field": "@timestamp",
+                "calendar_interval": "3m"
+            }
+        }
+    }
+}
+```
+
+### Metric Aggregations
+
+Apply calculations to numerical data fields present in a document.
+
+#### Cardinality Aggregation
+
+Show distinct values of a field.
+
+```elasticsearch_console_command
+GET example-index/_search?size=0
+{
+    "aggs": {
+        "example-cardinality-aggregation-name": {
+            "cardinality": {
+                "field": "example-field"
+            }
+        }
+    }
+}
+```
+
+#### Sum Aggregation
+
+Show distinct values of a field.
+
+```elasticsearch_console_command
+GET example-index/_search?size=0
+{
+    "aggs": {
+        "example-sum-aggregation-name": {
+            "sum": {
+                "field": "example-integer-field"
+            }
+        }
+    }
+}
+```
+
 ## Write and execute aggregations that contain sub-aggregations
+
+Aggregate the product of other aggregation functions
+
+```elasticsearch_console_command
+GET example-index/_search?size=0
+{
+    "example-parent-aggregation-name": {
+        "terms": {
+            "field": "example-field",
+            "size": 10
+        },
+        "aggs": {
+            "example-child-aggregation-name": {
+                "avg": {
+                    "field": "example-integer-field"
+                }
+            }
+        }
+    }
+}
+```
 
 ## Write and execute a query that searches across multiple clusters
 
