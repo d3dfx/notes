@@ -461,3 +461,68 @@ GET example-cluster-name02:example-index,example-index/_search
 ```
 
 ## Write and execute a search that utilizes a runtime field
+
+### Create a runtime mapping
+
+The `emit()` function is required when creating a runtime field
+
+```elasticsearch_console_command
+PUT example-index
+{
+    "mappings": {
+        "runtime": {
+            "day_of_week": {
+                "type": "keyword",
+                "script": {
+                    "source": "emit(doc['@timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.FULL, Locale.ROOT))"
+                }
+            }
+        },
+        "properties": {
+            "@timestamp":{
+                "type": "date"
+            }
+        }
+    }
+}
+```
+
+### Define a runtime field in a search request
+
+```elasticsearch_console_command
+GET example-index/_search
+{
+    "runtime_mappings":{
+        "full_name":{
+            "type": "keyword",
+            "script": {
+                "source": "emit(doc['firstname'] + " " + doc['lastname'])
+            }
+        }
+    },
+    "query": {
+        "wildcard": {
+            "lastname": {
+                "value": "smit*"
+            }
+        }
+    }
+}
+```
+
+### Define a runtime field with  out a script
+
+When no script is provided Elastisearch implicitly looks in the _source field at query time for the field value.
+
+```elasticsearch_console_command
+PUT example-index
+{
+    "mappings":{
+        "runtime": {
+            "lastname": {
+                "type": "keyword"
+            }
+        }
+    }
+}
+```
