@@ -449,4 +449,15 @@ GET example-index/_search?size=0
 
 ## Write and execute a query that searches across multiple clusters
 
+```elasticsearch_console_command
+GET example-cluster-name02:example-index,example-index/_search
+{
+    "query": {
+        "match": {
+            "example-field": "example-3"
+        }
+    }
+}
+```
+
 ## Write and execute a search that utilizes a runtime field
