@@ -126,3 +126,58 @@ PUT _aliases
 
 ## Define and use a search template
 
+A search template is a search you can run with different variables
+
+### Define a search template
+
+Uses the Stored Script API.
+
+```elasticsearch_console_command
+PUT _scripts/example-search-template-name
+{
+    "script": {
+        "lang": "mustache",
+        "source": {
+            "query": {
+                "match": {
+                    "example-field": "{{ example_variable }}"
+                }
+            },
+            "from": "{{from}}",
+            "size": "{{size}}"
+        },
+        "params": {
+            "query_string": "example",
+            "from": 0,
+            "size": 10
+        }
+    }
+}
+```
+
+### Validate a search template
+
+```elasticsearch_console_command
+POST _render/template
+{
+    "id": "example-search-template-name",
+    "params": {
+        "query_string": "example",
+        "from": 15,
+        "size": 5
+    }
+}
+```
+
+### Execute a templated search
+
+```elasticsearch_console_command
+{
+    "id": "example-search-template-name",
+    "params": {
+        "query_string": "example",
+        "from": 15,
+        "size": 5
+    }
+}
+```
