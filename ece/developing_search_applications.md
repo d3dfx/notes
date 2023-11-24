@@ -28,6 +28,19 @@ GET example-index/_search
 
 ## Sort the results of a query by a given set of requirements
 
+```elasticsearch_console_command
+GET example-index/_search
+{
+    "sort": [
+        {
+            "example-field": {
+                "order": "asc"
+            }
+        }
+    ]
+}
+```
+
 ## Implement pagination of the results of a search query
 
 ## Define and use index aliases
