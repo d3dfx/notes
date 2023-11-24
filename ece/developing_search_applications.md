@@ -2,7 +2,7 @@
 
 ## Highlight the search terms in the response of a query
 
-Default tags used for highlighting are `<em></em>`
+Default tags used are `<em></em>`
 
 ```elasticsearch_console_command
 GET example-index/_search
@@ -42,6 +42,30 @@ GET example-index/_search
 ```
 
 ## Implement pagination of the results of a search query
+
+### Parameters
+
+| Name | Description     |
+| --------------- | --------------- |
+| from | Define the number of results to skip |
+| size | Maximum number of hits to return |
+
+Hard size limit set by `index.max_result_window` index setting. Default max is 10,000.
+
+### Query
+
+```elasticsearch_console_command
+GET example-index/_search
+{
+    "from": 10,
+    "size": 20,
+    "query": {
+        "match": {
+            "example-field": "example"
+        }
+    }
+}
+```
 
 ## Define and use index aliases
 
