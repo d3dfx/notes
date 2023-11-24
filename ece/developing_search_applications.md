@@ -69,5 +69,60 @@ GET example-index/_search
 
 ## Define and use index aliases
 
+### Alias Types
+
+* Data stream alias
+* Index Alias
+
+An alias can point to one type OR the other.
+
+### Define an Index alias
+
+wildcard patterns are accepted.
+
+```elasticsearch_console_command
+PUT _aliases
+{
+    "actions" [
+        {
+            "add": {
+                "index": "example*",
+                "alias": "examples"
+            }
+        }
+    ]
+}
+```
+
+```elasticsearch_console_command
+PUT _aliases
+{
+    "actions" [
+        {
+            "add": {
+                "index": "example-1",
+                "alias": "main-example"
+            }
+        }
+    ]
+}
+```
+
+### Remove an Index Alias
+
+```elasticsearch_console_command
+PUT _aliases
+{
+    "actions" [
+        {
+            "remove": {
+                "index": "example-1",
+                "alias": "main-example"
+            }
+        }
+    ]
+}
+```
+
 ## Define and use a search template
 
