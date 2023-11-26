@@ -247,7 +247,7 @@ PUT new-index1
 
 | Endpoint                                  | Method | Description                                           |
 | ----------------------------------------- | ------ | ----------------------------------------------------- |
-| /ilm/policy/\<ilm_policy_identifier\>/ilm | PUT    | Create or Update an Index Lifecycle Management Policy |
+| /ilm/policy/\<ilm_policy_identifier\> | PUT    | Create or Update an Index Lifecycle Management Policy |
 
 #### Request Body Schema
 
