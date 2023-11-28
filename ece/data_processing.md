@@ -51,7 +51,7 @@ PUT new-index1/_mapping
 
 Defined under index settings and can be defined at the index level and the field level.
 
-## Create a custome analyzer API Definition
+### Create a custom analyzer API Definition
 
 | Endpoint                   | Method | Description           |
 | -------------------------- | ------ | --------------------- |
@@ -213,17 +213,19 @@ Updates documents that match the specified query. If no query is specified, perf
 
 #### Example Call
 
+```elasticsearch_console_command
 {
-"query":{
-"term": {
-"foo": "bar"
+    "query":{
+        "term": {
+            "foo": "bar"
+            }
+    },
+    "script": {
+        "lang": "painless",
+        "source": "ctx._source.remove('foo')"
+    }
 }
-},
-"script": {
-"lang": "painless",
-"source": "ctx.\_source.remove('foo')"
-}
-}
+```
 
 ## Define and use an ingest pipeline that satisfies a given set of requirements, including the use of Painless to modify documents
 
@@ -292,8 +294,18 @@ This can be done with the following apis
 POST example-index/_doc?pipeline=<pipeline-name>
 POST example-index/_bulk?pipeline=<pipeline-name>
 POST example-index/_update_by_query?pipeline=<pipeline-name>
-POST example-index/_reindex?pipeline=<pipeline-name>
-```elasticsearch_console_command
+
+POST _reindex
+{
+    "source": {
+        "index": "example-source-index"
+    },
+    "dest": {
+        "index": "example-dest-index",
+        "pipeline": "<pipeline-name>
+    }
+}
+```
 
 ### Set a default pipeline
 
