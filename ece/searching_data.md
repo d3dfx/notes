@@ -46,7 +46,7 @@ GET example-index/_search
     "query": {
         "multi_match": {
             "query": "example-3",
-            "fields": ['example-field^2","test-field"]
+            "fields": ["example-field^2","test-field"]
         }
     }
 }
