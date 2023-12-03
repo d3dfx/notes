@@ -180,7 +180,7 @@ POST /_snapshot/local-fs/example-snapshot/_mount
 
 ```elasticsearch_console_command
 GET /example/_search
-```elasticsearch_console_command
+```
 
 ## Configure a cluster for cross-cluster search
 
@@ -227,12 +227,12 @@ PUT _cluster/settings
 
 ```elasticsearch_console_command
 GET remote-cluster-name:example-index/_search
-```elasticsearch_console_command
+```
 
 - <https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-cross-cluster-search.html>
 - <https://www.elastic.co/guide/en/elasticsearch/reference/current/remote-clusters-settings.html>
 
-## Implement cross-cluster replication
+# Implement cross-cluster replication
 
 ### Update Cluster Settings
 
